@@ -1,4 +1,4 @@
-Creating Docker Containers running Kofa
+Creating Docker Containers Running Kofa
 =======================================
 
 With the given Dockerfile and script we can create a docker container
@@ -14,7 +14,7 @@ Install `docker`::
   $ sudo apt-get install docker.io
 
 On Ubuntu "docker.io" is the official repo name of `docker`. This is
-to distiguish from the same-named GUI app.
+to distinguish from the same-named GUI app.
 
 
 Install Basic Images (Ubuntu 14.04.3)
