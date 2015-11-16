@@ -71,6 +71,9 @@ If you stop the container shell (type 'exit'), the container will
 still exist::
 
   $ docker ps --all
+  CONTAINER ID     IMAGE            COMMAND                CREATED          STATUS                   PORTS            NAMES
+  b74700439486     kofa:latest      "/bin/sh -c '/bin/ba   59 seconds ago   Exited (0) 23 seconds ago                 hopeful_ptolemy
+
 
 To remove it, run::
 
