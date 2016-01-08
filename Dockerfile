@@ -20,6 +20,7 @@ RUN echo kofa:kofa | chpasswd && adduser kofa sudo
 # get sources
 RUN wget https://pypi.python.org/packages/source/w/waeup.kofa/waeup.kofa-1.3.3.tar.gz && tar -xzf waeup.kofa-1.3.3.tar.gz
 RUN mv waeup.kofa-1.3.3 waeup.kofa
+COPY build.sh /home/kofa/build.sh
 RUN chown -R kofa:kofa /home/kofa/
 
 USER kofa
@@ -28,7 +29,6 @@ ENV HOME /home/kofa
 
 # create a virtual env
 RUN virtualenv py27
-COPY build.sh /home/kofa/build.sh
 
 # install kofa -- this is the heavy part...
 RUN /home/kofa/build.sh
