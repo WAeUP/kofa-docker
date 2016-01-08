@@ -16,13 +16,15 @@ RUN ln -s /usr/include/freetype2 /usr/include/freetype2/freetype
 RUN useradd -ms /bin/bash kofa
 # set password of user `kofa` and add to group 'sudo'
 RUN echo kofa:kofa | chpasswd && adduser kofa sudo
-USER kofa
-WORKDIR /home/kofa
-ENV HOME /home/kofa
 
 # get sources
 RUN wget https://pypi.python.org/packages/source/w/waeup.kofa/waeup.kofa-1.3.3.tar.gz && tar -xzf waeup.kofa-1.3.3.tar.gz
 RUN mv waeup.kofa-1.3.3 waeup.kofa
+RUN chown -R kofa:kofa /home/kofa/
+
+USER kofa
+WORKDIR /home/kofa
+ENV HOME /home/kofa
 
 # create a virtual env
 RUN virtualenv py27
