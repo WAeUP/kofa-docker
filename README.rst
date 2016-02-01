@@ -49,6 +49,16 @@ Now start the build::
 This will take _lots_ of time, but should run until end.
 
 
+Tag Container
+-------------
+
+Optionally, you might like to tag the buildt container::
+
+  $ docker tag kofa:latest kofa:x.y.z
+
+where ``x.y.z`` is a version number.
+
+
 Run Kofa
 --------
 
