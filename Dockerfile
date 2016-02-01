@@ -1,5 +1,7 @@
 FROM ubuntu:14.04.3
 
+MAINTAINER Uli Fouquet <uli@waeup.org>
+
 RUN apt-get update && apt-get install -y
 RUN apt-get install -y python2.7-dev libxml2-dev libxslt1-dev \
                        zlib1g-dev python-virtualenv
