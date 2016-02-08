@@ -2,7 +2,7 @@ Creating Docker Containers Running Kofa
 =======================================
 
 With the given Dockerfile and script we can create a docker container
-running `waeup.kofa` 1.3.3.
+running `waeup.kofa` 1.4.
 
 The following are merely notes to self.
 
