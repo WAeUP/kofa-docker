@@ -21,8 +21,8 @@ RUN echo kofa:kofa | chpasswd && adduser kofa sudo
 
 # get sources
 WORKDIR /home/kofa
-RUN wget https://pypi.python.org/packages/source/w/waeup.kofa/waeup.kofa-1.4.tar.gz && tar -xzf waeup.kofa-1.4.tar.gz
-RUN mv waeup.kofa-1.4 waeup.kofa
+RUN wget https://pypi.python.org/packages/source/w/waeup.kofa/waeup.kofa-1.4.1.tar.gz && tar -xzf waeup.kofa-1.4.1.tar.gz
+RUN mv waeup.kofa-1.4.1 waeup.kofa
 COPY build.sh /home/kofa/build.sh
 
 # make sure, all added files belong to `kofa`
