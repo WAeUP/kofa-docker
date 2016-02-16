@@ -23,7 +23,6 @@ RUN echo kofa:kofa | chpasswd && adduser kofa sudo
 WORKDIR /home/kofa
 RUN wget https://pypi.python.org/packages/source/w/waeup.kofa/waeup.kofa-1.4.1.tar.gz && tar -xzf waeup.kofa-1.4.1.tar.gz
 RUN mv waeup.kofa-1.4.1 waeup.kofa
-COPY build.sh /home/kofa/build.sh
 
 # make sure, all added files belong to `kofa`
 RUN chown -R kofa:kofa /home/kofa/
@@ -35,6 +34,10 @@ ENV HOME /home/kofa
 RUN virtualenv py27
 
 # install kofa -- this is the heavy part...
-RUN /home/kofa/build.sh
+WORKDIR /home/kofa/waeup.kofa
+RUN /home/kofa/py27/bin/pip install --upgrade pip
+RUN /home/kofa/py27/bin/pip install pyopenssl ndg-httpsclient pyasn1
+RUN /home/kofa/py27/bin/python /home/kofa/waeup.kofa/bootstrap.py
+RUN /home/kofa/waeup.kofa/bin/buildout
 
 CMD /bin/bash
