@@ -1,4 +1,4 @@
-FROM ubuntu:14.04.3
+FROM ubuntu:14.04.4
 
 MAINTAINER Uli Fouquet <uli@waeup.org>
 
