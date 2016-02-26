@@ -17,12 +17,12 @@ On Ubuntu "docker.io" is the official repo name of `docker`. This is
 to distinguish from the same-named GUI app.
 
 
-Install Basic Images (Ubuntu 14.04.3)
+Install Basic Images (Ubuntu 14.04.4)
 -------------------------------------
 
 Pull a recent Ubuntu image from docker repository::
 
-  $ docker pull ubuntu:14.04.3
+  $ docker pull ubuntu:14.04.4
 
 This will fetch some hundred MBs.
 
@@ -32,7 +32,7 @@ You can play a bit with the freshly installed images.
 Build Kofa
 ----------
 
-This docker image of `waeup.kofa` is based on Ubuntu 14.04.3. We have
+This docker image of `waeup.kofa` is based on Ubuntu 14.04.4. We have
 to get the Dockerfile and the `build.sh` script::
 
   $ git clone https://github.com/waeup/kofa-docker.git
