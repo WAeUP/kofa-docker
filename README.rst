@@ -17,14 +17,15 @@ On Ubuntu "docker.io" is the official repo name of `docker`. This is
 to distinguish from the same-named GUI app.
 
 
-Install Basic Images (Ubuntu 14.04.4)
--------------------------------------
+Install Basic Images (Ubuntu)
+-----------------------------
 
-Pull a recent Ubuntu image from docker repository::
+You can pull a recent base image, we yet use Ubuntu, beforehand::
 
   $ docker pull ubuntu:14.04.4
 
-This will fetch some hundred MBs.
+This will fetch some hundred MBs. If you do not, the base image will
+be fetched during build process.
 
 You can play a bit with the freshly installed images.
 
@@ -32,8 +33,8 @@ You can play a bit with the freshly installed images.
 Build Kofa
 ----------
 
-This docker image of `waeup.kofa` is based on Ubuntu 14.04.4. We have
-to get the Dockerfile and the `build.sh` script::
+This official docker image of `waeup.kofa` is based on Ubuntu
+14.04.4. We have to get the Dockerfile and the `build.sh` script::
 
   $ git clone https://github.com/waeup/kofa-docker.git
 
@@ -108,3 +109,20 @@ You can also start containers stopped before and reattach to them::
   $ docker attach <container-name>
 
 will bring you back into the container.
+
+
+Building on Other Base Images
+-----------------------------
+
+By default we support Ubuntu 14.04 as base. Apart from that we provide
+limited support for other images::
+
+  xenial/    # Ubuntu 16.04
+
+You can build/tag/run respective images like this::
+
+  $ docker build -t kofa:xenial xenial/
+  $ docker tag kofa:latest kofa:xenial-x.y.z
+  $ docker run --net=host -t -i kofa:xenial
+
+Other commands for handling non-default images apply as shown above.
