@@ -128,6 +128,19 @@ You can make sure everything worked wit `docker ps`::
   CONTAINER ID        IMAGE        COMMAND                CREATED             STATUS              PORTS               NAMES
   9033a6bd4baf        kofa         "/home/kofa/waeup.ko   4 minutes ago       Up 4 minutes                            loving_franklin
 
+A running docker instance can be stopped with::
+
+  $ docker stop loving_franklin
+  loving_franklin
+
+and be restarted with::
+  $ docker start loving_franklin
+  loving_franklin
+
+and `kofa` should be accessible at ``http://localhost:8080/`` again.
+
+To remove a container completely, use ``docker rm`` as shown above.
+
 
 Building on Other Base Images
 -----------------------------
