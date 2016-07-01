@@ -111,6 +111,24 @@ You can also start containers stopped before and reattach to them::
 will bring you back into the container.
 
 
+Run Kofa - w/o Entering the Container
+-------------------------------------
+
+Of course you can run `kofa` without entering the container and doing
+complex things::
+
+  $ docker run --net=host -d -P kofa /home/kofa/waeup.kofa/bin/kofactl fg
+
+will give you access to a running `kofa` instance on your localhost
+port ``8080``. The default credentials are ``grok`` / ``grok``.
+
+You can make sure everything worked wit `docker ps`::
+
+  $ docker ps -l
+  CONTAINER ID        IMAGE        COMMAND                CREATED             STATUS              PORTS               NAMES
+  9033a6bd4baf        kofa         "/home/kofa/waeup.ko   4 minutes ago       Up 4 minutes                            loving_franklin
+
+
 Building on Other Base Images
 -----------------------------
 
