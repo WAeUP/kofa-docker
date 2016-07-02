@@ -134,10 +134,21 @@ A running docker instance can be stopped with::
   loving_franklin
 
 and be restarted with::
+
   $ docker start loving_franklin
   loving_franklin
 
 and `kofa` should be accessible at ``http://localhost:8080/`` again.
+
+You can follow logs printed to stdout with::
+
+  $ docker logs loving_franklin
+  /home/kofa/waeup.kofa/bin/paster serve /home/kofa/waeup.kofa/parts/etc/themed-deploy.ini
+  2016-07-02 09:15:49,013 INFO [zope.app.generations] main db: evolving in mode EVOLVEMINIMUM
+  2016-07-02 09:15:49,018 INFO [zope.app.generations] main db/zope.app: running install generation
+
+but it makes more sense to create a shared folder where you can store
+persistent data, including several logs and data files.
 
 To remove a container completely, use ``docker rm`` as shown above.
 
