@@ -153,6 +153,31 @@ persistent data, including several logs and data files.
 To remove a container completely, use ``docker rm`` as shown above.
 
 
+Kofa Data Persistence
+---------------------
+
+Data in Kofa is stored in a database called `ZODB`. This database is a
+simple file in the ``var/`` folder of the Kofa instance installed.
+
+If you do changes and the database is not persisted, all changes will
+be lost on restart.
+
+To make your changes last, you must make the ``var/`` folder
+persistent. You can do so for instance by::
+
+  $ docker run -t -v `pwd`/persistent:/home/kofa/waeup.kofa/var -i kofa
+
+Here we use a shared volume. A folder on host (called ``persistent``)
+is mapped to the ``var/`` folder in the container.
+
+Please note that *in the container* you have to run
+
+  (container) $ ./bin/buildout
+
+to populate the folder if it is not already.
+
+
+
 Building on Other Base Images
 -----------------------------
 
