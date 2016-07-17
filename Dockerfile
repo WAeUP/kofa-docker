@@ -39,4 +39,7 @@ RUN /home/kofa/py27/bin/pip install --upgrade pip
 RUN /home/kofa/py27/bin/python /home/kofa/waeup.kofa/bootstrap.py
 RUN /home/kofa/waeup.kofa/bin/buildout
 
+# this dir will contain data you might want to be persistent
+VOLUME ["/home/kofa/waeup.kofa/var/"]
+
 CMD /bin/bash
