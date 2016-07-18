@@ -42,4 +42,4 @@ RUN /home/kofa/waeup.kofa/bin/buildout
 # this dir will contain data you might want to be persistent
 VOLUME ["/home/kofa/waeup.kofa/var/"]
 
-CMD /bin/bash
+CMD /home/kofa/waeup.kofa/bin/kofactl fg
