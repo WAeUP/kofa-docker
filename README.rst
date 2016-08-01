@@ -63,14 +63,36 @@ where ``x.y.z`` is a version number.
 Run Kofa
 --------
 
-When finished, you can run you freshly installed instance like this::
+When finished, you can run your freshly installed `kofa` instance like
+this::
 
   $ docker run --net=host -t -i kofa
 
-whch will drop you into a shell on the 'virtual' docker
-container. Change to `waeup.kofa` and start the server::
+After startup you should be able to reach the portal on your local
+port 8080. Open
 
-  (container) $ cd waeup.kofa
+  http://localhost:8080/
+
+in a browser (`grok`/`grok` as credentials).
+
+Please note that changes you make will remain in the running single
+container only. Persistent data can be saved with shared
+folders/volumes as shown below.
+
+
+Run Kofa (from Shell)
+---------------------
+
+Instead of starting a `kofa` instance immediately, you can also start
+a shell and enter the container to do whatever you like there. In that
+case you run a container with::
+
+  $ docker run --net=host -t -i kofa /bin/bash
+
+(note the trailing ``/bin/bash``) whch will drop you into a shell
+inside the docker container. Change to `waeup.kofa` and start the
+server manually::
+
   (container) $ ./bin/kofactl fg
 
 After startup you should be able to reach the portal on your local
