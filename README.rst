@@ -165,10 +165,10 @@ be lost on restart.
 To make your changes last, you must make the ``var/`` folder
 persistent. You can do so for instance by::
 
-  $ docker run -t -v `pwd`/persistent:/home/kofa/waeup.kofa/var -i kofa
+  $ docker run --net=host -t -v `pwd`/data:/home/kofa/waeup.kofa/var -i kofa
 
-Here we use a shared volume. A folder on host (called ``persistent``)
-is mapped to the ``var/`` folder in the container.
+Here, with the ``-v`` option, we use a shared volume. A folder on host
+(called ``data``) is mapped to the ``var/`` folder in the container.
 
 Please note that *in the container* you have to run
 
