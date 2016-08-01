@@ -137,9 +137,9 @@ Run Kofa - w/o Entering the Container
 -------------------------------------
 
 Of course you can run `kofa` without entering the container and doing
-complex things::
+complex things at all::
 
-  $ docker run --net=host -d -P kofa /home/kofa/waeup.kofa/bin/kofactl fg
+  $ docker run --net=host -d kofa
 
 will give you access to a running `kofa` instance on your localhost
 port ``8080``. The default credentials are ``grok`` / ``grok``.
