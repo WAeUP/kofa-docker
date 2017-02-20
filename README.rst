@@ -22,7 +22,7 @@ Install Basic Images (Ubuntu)
 
 You can pull a recent base image, we yet use Ubuntu, beforehand::
 
-  $ docker pull ubuntu:14.04.4
+  $ docker pull ubuntu:14.04.5
 
 This will fetch some hundred MBs. If you do not, the base image will
 be fetched during build process.
