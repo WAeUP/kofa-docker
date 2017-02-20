@@ -125,7 +125,7 @@ An image can be removed with::
 where `<image-id>` is a hex number as listed by the command
 before.
 
-You can also start containers stopped before and reattach to them::
+You can also restart stopped containers and reattach to them::
 
   $ docker start <container-name>
   $ docker attach <container-name>
