@@ -2,7 +2,7 @@ Creating Docker Containers Running Kofa
 =======================================
 
 With the given Dockerfile and script we can create a docker container
-running `waeup.kofa` 1.4.1.
+running `waeup.kofa` 1.5.
 
 The following are merely notes to self.
 
@@ -34,7 +34,7 @@ Build Kofa
 ----------
 
 This official docker image of `waeup.kofa` is based on Ubuntu
-14.04.4. We have to get the Dockerfile and the `build.sh` script::
+14.04.5. We have to get the Dockerfile and the `build.sh` script::
 
   $ git clone https://github.com/waeup/kofa-docker.git
 
