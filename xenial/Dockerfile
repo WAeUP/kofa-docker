@@ -31,7 +31,7 @@ USER kofa
 ENV HOME /home/kofa
 
 # create a virtual env
-RUN virtualenv py27
+RUN virtualenv -p /usr/bin/python2.7 py27
 
 # install kofa -- this is the heavy part...
 WORKDIR /home/kofa/waeup.kofa
