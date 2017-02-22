@@ -44,4 +44,7 @@ RUN mv versions_new.cfg /home/kofa/waeup.kofa/versions.cfg
 RUN /home/kofa/py27/bin/python /home/kofa/waeup.kofa/bootstrap.py
 RUN /home/kofa/waeup.kofa/bin/buildout
 
-CMD /bin/bash
+# this dir will contain data you might want to be persistent
+VOLUME ["/home/kofa/waeup.kofa/var/"]
+
+CMD /home/kofa/waeup.kofa/bin/kofactl fg
