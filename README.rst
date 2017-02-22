@@ -48,6 +48,8 @@ Now start the build::
   $ docker build -t kofa .
 
 This will take _lots_ of time, but should run until end.
+Use ``--no-cache`` to build from scratch, even if parts of the image
+where built successfully already.
 
 
 Tag Container
