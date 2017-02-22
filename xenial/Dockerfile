@@ -11,9 +11,6 @@ RUN apt-get install -y libssl-dev libffi-dev
 RUN apt-get install -y libjpeg-dev libfreetype6-dev libtiff-dev libopenjpeg-dev
 RUN apt-get install -y sudo wget git
 
-# fix link needed by Pillow
-RUN ln -s /usr/include/freetype2 /usr/include/freetype2/freetype
-
 # add user `kofa`
 RUN useradd -ms /bin/bash kofa
 # set password of user `kofa` and add to group 'sudo'
