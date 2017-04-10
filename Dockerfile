@@ -36,7 +36,7 @@ RUN virtualenv -p /usr/bin/python2.7 py27
 # install kofa -- this is the heavy part...
 WORKDIR /home/kofa/waeup.kofa
 RUN /home/kofa/py27/bin/pip install --upgrade pip
-RUN /home/kofa/py27/bin/python /home/kofa/waeup.kofa/bootstrap.py
+RUN /home/kofa/py27/bin/python /home/kofa/waeup.kofa/bootstrap.py --buildout-version=2.5.0
 RUN /home/kofa/waeup.kofa/bin/buildout
 
 # this dir will contain data you might want to be persistent
