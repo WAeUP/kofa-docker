@@ -189,10 +189,18 @@ be lost on restart.
 To make your changes last, you must make the ``var/`` folder
 persistent. You can do so for instance by::
 
+  $ docker run --net=host -t -v /home/kofa/waeup.kofa/var -i kofa
+
+Here, with the ``-v`` option, we use a shared volume. In the given form,
+`docker` will create a local directory where all the data is written to, even
+if the container stops.
+
+Another option is to use a dedicated local folder as shared data volume::
+
   $ docker run --net=host -t -v `pwd`/data:/home/kofa/waeup.kofa/var -i kofa
 
-Here, with the ``-v`` option, we use a shared volume. A folder on host
-(called ``data``) is mapped to the ``var/`` folder in the container.
+Here a folder on host (called ``data``) is mapped to the ``var/`` folder in the
+container.
 
 Please note that *in the container* you have to run
 
