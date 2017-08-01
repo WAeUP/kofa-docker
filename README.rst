@@ -195,12 +195,21 @@ Here, with the ``-v`` option, we use a shared volume. In the given form,
 `docker` will create a local directory where all the data is written to, even
 if the container stops.
 
-Another option is to use a dedicated local folder as shared data volume::
+The exact path of the shared volume can be determined by running::
+
+  $ docker inspect <CONTAINER-NAME>
+
+and will be listed somewhere in ``Mounts`` section or in ``Volumes`` (older
+versions of `docker`).
+
+Another option is to use a self-created local folder as shared data volume::
 
   $ docker run --net=host -t -v `pwd`/data:/home/kofa/waeup.kofa/var -i kofa
 
 Here a folder on host (called ``data``) is mapped to the ``var/`` folder in the
-container.
+container. You must make sure, that the `data` folder exists before you run the
+container. Otherwise it will be created with root permissions and block any
+further action.
 
 Please note that *in the container* you have to run
 
