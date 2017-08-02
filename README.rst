@@ -211,12 +211,22 @@ container. You must make sure, that the `data` folder exists before you run the
 container. Otherwise it will be created with root permissions and block any
 further action.
 
-Please note that *in the container* you have to run
+Please note that *in the container* the `buildout` script has to be run once
+(with the volume above enabled) to populate the persistent `var` dir::
 
   (container) $ ./bin/buildout
 
-to populate the folder if it is not already.
+This has to be done once for every instance you want to keep persistent.
 
+It is sufficient to start a container that only populates the persistent volume
+and stops afterwards.::
+
+  $ mkdir data
+  $ docker run -t -v `pwd`/data:/home/kofa/waeup.kofa/bin/buildout -i kofa
+
+Other containers will happily use the already created volume::
+
+  $ docker run --net=host -t -v `pwd`/data:/home/kofa/waeup.kofa/var -i kofa
 
 
 Building on Other Base Images
