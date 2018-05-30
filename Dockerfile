@@ -42,4 +42,4 @@ RUN /home/kofa/py27/bin/buildout
 # this dir will contain data you might want to be persistent
 VOLUME ["/home/kofa/waeup.kofa/var/"]
 
-# CMD /home/kofa/waeup.kofa/bin/kofactl fg
+CMD /home/kofa/waeup.kofa/bin/kofactl fg
