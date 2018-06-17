@@ -9,7 +9,7 @@ RUN apt-get install -y python2.7-dev libxml2-dev libxslt1-dev \
 RUN apt-get install -y libssl-dev libffi-dev
 # libs needed/useful for Pillow image manipulations
 RUN apt-get install -y libjpeg-dev libfreetype6-dev libtiff-dev libopenjpeg-dev
-RUN apt-get install -y sudo wget git
+RUN apt-get install -y sudo git wget
 
 # fix link needed by Pillow
 RUN ln -s /usr/include/freetype2 /usr/include/freetype2/freetype
@@ -21,8 +21,9 @@ RUN echo kofa:kofa | chpasswd && adduser kofa sudo
 
 # get sources
 WORKDIR /home/kofa
-RUN wget https://pypi.python.org/packages/ed/0f/0b30fcf8c113b11967c1481668b38b4b9e32f256eb366f73b70ff960872f/waeup.kofa-1.5.tar.gz && tar -xzf waeup.kofa-1.5.tar.gz
-RUN mv waeup.kofa-1.5 waeup.kofa
+RUN wget https://files.pythonhosted.org/packages/42/5f/71201506a0dd9392084708683c2288d53eb4ee74ccd654aefca4a2bc8455/waeup.kofa-1.6.tar.gz && tar -xzf waeup.kofa-1.6.tar.gz
+RUN tar -xzf waeup.kofa-1.6.tar.gz
+RUN mv waeup.kofa-1.6 waeup.kofa
 
 # make sure, all added files belong to `kofa`
 RUN chown -R kofa:kofa /home/kofa/
