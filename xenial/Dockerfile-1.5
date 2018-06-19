@@ -33,13 +33,13 @@ RUN virtualenv -p /usr/bin/python2.7 py27
 # install kofa -- this is the heavy part...
 WORKDIR /home/kofa/waeup.kofa
 RUN /home/kofa/py27/bin/pip install --upgrade pip
+RUN /home/kofa/py27/bin/pip install zc.buildout
 
 # remove `six` from versions config.
 RUN cat /home/kofa/waeup.kofa/versions.cfg | grep -v six > versions_new.cfg
 RUN mv versions_new.cfg /home/kofa/waeup.kofa/versions.cfg
 
-RUN /home/kofa/py27/bin/python /home/kofa/waeup.kofa/bootstrap.py
-RUN /home/kofa/waeup.kofa/bin/buildout
+RUN /home/kofa/py27/bin/buildout
 
 # this dir will contain data you might want to be persistent
 VOLUME ["/home/kofa/waeup.kofa/var/"]
