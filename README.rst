@@ -2,9 +2,33 @@ Creating Docker Containers Running Kofa
 =======================================
 
 With the given Dockerfile and script we can create a docker container
-running `waeup.kofa` 1.5.
+running `waeup.kofa` 1.7.1.
 
 The following are merely notes to self.
+
+Shortcut (tl;rd):
+-----------------
+
+Build::
+
+  $ docker build --no-cache --pull -t kofa .
+
+Run (as daemon)::
+
+  $ docker run -p 8080:8080 -d kofa
+
+Get a shell::
+
+  $ docker run -i -t kofa /bin/bash
+
+Workdir inside container::
+
+  /home/kofa
+
+User credentials inside container::
+
+  kofa:kofa
+
 
 Prepare Your Local Ubuntu
 -------------------------
@@ -22,7 +46,7 @@ Install Basic Images (Ubuntu)
 
 You can pull a recent base image, we yet use Ubuntu, beforehand::
 
-  $ docker pull ubuntu:14.04.5
+  $ docker pull ubuntu:20.04
 
 This will fetch some hundred MBs. If you do not, the base image will
 be fetched during build process.
@@ -34,7 +58,7 @@ Build Kofa
 ----------
 
 This official docker image of `waeup.kofa` is based on Ubuntu
-14.04.5. We have to get the Dockerfile and the `build.sh` script::
+20.04. We have to get the Dockerfile and the `build.sh` script::
 
   $ git clone https://github.com/waeup/kofa-docker.git
 
@@ -232,10 +256,11 @@ Other containers will happily use the already created volume::
 Building on Other Base Images
 -----------------------------
 
-By default we support Ubuntu 14.04 as base. Apart from that we provide
+By default we support Ubuntu 20.04 as base. Apart from that we provide
 limited support for other images::
 
   xenial/    # Ubuntu 16.04
+  bionic/    # Ubuntu 18.04
 
 You can build/tag/run respective images like this::
 
