@@ -1,14 +1,16 @@
-FROM ubuntu:14.04
+FROM ubuntu:20.04
 
 MAINTAINER Uli Fouquet <uli@waeup.org>
 
-RUN apt-get update && apt-get install -y
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y tzdata
+RUN apt-get install -y apt-utils build-essential
 RUN apt-get install -y python2.7-dev libxml2-dev libxslt1-dev \
-                       zlib1g-dev python-virtualenv
+                       zlib1g-dev python3-virtualenv
 # see https://urllib3.readthedocs.org/en/latest/security.html#openssl-pyopenssl
 RUN apt-get install -y libssl-dev libffi-dev
 # libs needed/useful for Pillow image manipulations
-RUN apt-get install -y libjpeg-dev libfreetype6-dev libtiff-dev libopenjpeg-dev
+RUN apt-get install -y libjpeg-dev libfreetype6-dev libtiff-dev libopenjp2-7-dev
 RUN apt-get install -y sudo git wget
 
 # fix link needed by Pillow
