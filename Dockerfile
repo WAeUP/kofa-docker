@@ -1,4 +1,5 @@
 FROM ubuntu:20.04
+ARG KOFA_VERSION=1.7.1
 
 MAINTAINER Uli Fouquet <uli@waeup.org>
 
@@ -13,33 +14,38 @@ RUN apt-get install -y libssl-dev libffi-dev
 RUN apt-get install -y libjpeg-dev libfreetype6-dev libtiff-dev libopenjp2-7-dev
 RUN apt-get install -y sudo git wget
 
-# fix link needed by Pillow
-RUN ln -s /usr/include/freetype2 /usr/include/freetype2/freetype
-
 # add user `kofa`
 RUN useradd -ms /bin/bash kofa
 # set password of user `kofa` and add to group 'sudo'
 RUN echo kofa:kofa | chpasswd && adduser kofa sudo
 
-# get sources
-WORKDIR /home/kofa
-RUN wget https://files.pythonhosted.org/packages/8e/9c/d65182d4361c8c47ec50090d97c4b6f013c7c63589b9e0fe239c37fb8f36/waeup.kofa-1.7.1.tar.gz && tar -xzf waeup.kofa-1.7.1.tar.gz
-RUN tar -xzf waeup.kofa-1.7.1.tar.gz
-RUN mv waeup.kofa-1.7.1 waeup.kofa
-
-# make sure, all added files belong to `kofa`
-RUN chown -R kofa:kofa /home/kofa/
-
 USER kofa
 ENV HOME /home/kofa
+WORKDIR /home/kofa
 
 # create a virtual env
 RUN virtualenv -p /usr/bin/python2.7 py27
 
+# get sources
+# we can work with official PyPI sources...
+RUN /home/kofa/py27/bin/pip download --no-deps waeup.kofa==${KOFA_VERSION} && tar -xzf waeup.kofa-${KOFA_VERSION}.tar.gz
+## ...OR with local kofa sources (create a source pkg with `python setup.py sdist`)
+## Please keep one of the two lines above and below commented out.
+# ADD dist/waeup.kofa-${KOFA_VERSION}.tar.gz /home/kofa
+RUN mv waeup.kofa-${KOFA_VERSION} waeup.kofa
+
+## make sure, all added files belong to `kofa`
+#RUN chown -R kofa:kofa /home/kofa/
+
 # install kofa -- this is the heavy part...
 WORKDIR /home/kofa/waeup.kofa
-RUN /home/kofa/py27/bin/pip install --upgrade pip
-RUN /home/kofa/py27/bin/pip install zc.buildout
+
+# pin down `pip` and `setuptools` - just to ensure we have a fixed set of versions
+RUN /home/kofa/py27/bin/pip install --upgrade pip==20.3.4
+RUN /home/kofa/py27/bin/pip install --upgrade --force-reinstall setuptools==44.1.1
+# pin down `zc.buildout` - versions >= 3 make entry-points of installed eggs
+# invisible for `pgk_resources`
+RUN /home/kofa/py27/bin/pip install "zc.buildout<3"
 RUN /home/kofa/py27/bin/buildout
 
 # this dir will contain data you might want to be persistent

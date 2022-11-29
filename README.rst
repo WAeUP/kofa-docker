@@ -19,7 +19,7 @@ Run (as daemon)::
 
 Get a shell::
 
-  $ docker run -i -t kofa /bin/bash
+  $ docker run --rm -i -t kofa /bin/bash
 
 Workdir inside container::
 
@@ -83,7 +83,11 @@ Optionally, you might like to tag the built container::
 
   $ docker tag kofa:latest kofa:x.y.z
 
-where ``x.y.z`` is a version number.
+where ``x.y.z`` is a version number. We tag our images like this:
+
+  `22.04-1.7.1`
+
+where `22.04` is the Ubuntu version used and `1.7.1` the Kofa version installed.
 
 
 Run Kofa
@@ -92,7 +96,14 @@ Run Kofa
 When finished, you can run your freshly installed `kofa` instance like
 this::
 
-  $ docker run --net=host -t -i kofa
+  $ docker run -it --rm -p 8080:8080 kofa
+
+or like this::
+
+  $ docker run -it --rm -p 8080:8080 kofa:20.04-1.7.1
+
+if you prefer a certain version.
+
 
 After startup you should be able to reach the portal on your local
 port 8080. Open
@@ -105,6 +116,8 @@ Please note that changes you make will remain in the running single
 container only. Persistent data can be saved with shared
 folders/volumes as shown below.
 
+When the container stops, all data will be lost.
+
 
 Run Kofa (from Shell)
 ---------------------
@@ -113,10 +126,10 @@ Instead of starting a `kofa` instance immediately, you can also start
 a shell and enter the container to do whatever you like there. In that
 case you run a container with::
 
-  $ docker run --net=host -t -i kofa /bin/bash
+  $ docker run -p 8080:8080 -it kofa /bin/bash
 
-(note the trailing ``/bin/bash``) whch will drop you into a shell
-inside the docker container. Change to `waeup.kofa` and start the
+(note the trailing ``/bin/bash``) which will drop you into a shell
+inside the docker container. Change to `waeup.kofa/` and start the
 server manually::
 
   (container) $ ./bin/kofactl fg
@@ -158,6 +171,12 @@ You can also restart stopped containers and reattach to them::
 
 will bring you back into the container.
 
+You can also run arbitrary commands inside a container. The command `/bin/bash`
+above is only one example. You could, for instance, run the tests inside the
+container like this::
+
+  $ docker run -it --rm kofa /home/kofa/waeup.kofa/bin/test
+
 
 Run Kofa - w/o Entering the Container
 -------------------------------------
@@ -165,7 +184,7 @@ Run Kofa - w/o Entering the Container
 Of course you can run `kofa` without entering the container and doing
 complex things at all::
 
-  $ docker run --net=host -d kofa
+  $ docker run -p 8080:8080 -d kofa
 
 will give you access to a running `kofa` instance on your localhost
 port ``8080``. The default credentials are ``grok`` / ``grok``.
@@ -198,7 +217,9 @@ You can follow logs printed to stdout with::
 but it makes more sense to create a shared folder where you can store
 persistent data, including several logs and data files.
 
-To remove a container completely, use ``docker rm`` as shown above.
+To remove a container completely, use ``docker rm`` as shown above. Or use the
+`--rm` when running a container. This will dispose the container immediately
+after it was stopped without any further intervention.
 
 
 Kofa Data Persistence
@@ -213,44 +234,33 @@ be lost on restart.
 To make your changes last, you must make the ``var/`` folder
 persistent. You can do so for instance by::
 
-  $ docker run --net=host -t -v /home/kofa/waeup.kofa/var -i kofa
+  $ docker run -p 8080:8080 -it --rm -v kofadata1:/home/kofa/waeup.kofa/var/ kofa
 
-Here, with the ``-v`` option, we use a shared volume. In the given form,
-`docker` will create a local directory where all the data is written to, even
-if the container stops.
+Here we create a volume named `kofadata1` that stores the content of the
+in-container path `/home/kofa/waeup.kofa/var/`. That is the directory we want
+to make persistent.
 
-The exact path of the shared volume can be determined by running::
+The container will be removed when stopped (because we specified `--rm`), but
+the data in the given path will survive inside the named volume.
 
-  $ docker inspect <CONTAINER-NAME>
+When we start a new container with the same volume, we get the data from the
+first container.
 
-and will be listed somewhere in ``Mounts`` section or in ``Volumes`` (older
-versions of `docker`).
+Let's do it, this time with the container detatching from the commandline
+(specified by `-d`)::
 
-Another option is to use a self-created local folder as shared data volume::
+  $ docker run -p 8080:8080 -d --rm -v kofadata1:/home/kofa/waeup.kofa/var/ kofa
 
-  $ docker run --net=host -t -v `pwd`/data:/home/kofa/waeup.kofa/var -i kofa
+The new container will provide the same data as the first one. Changes will
+also stay.
 
-Here a folder on host (called ``data``) is mapped to the ``var/`` folder in the
-container. You must make sure, that the `data` folder exists before you run the
-container. Otherwise it will be created with root permissions and block any
-further action.
+The exact path of the named volume can be determined by running::
 
-Please note that *in the container* the `buildout` script has to be run once
-(with the volume above enabled) to populate the persistent `var` dir::
+  $ docker inspect <VOLUME_NAME>
 
-  (container) $ ./bin/buildout
+In our case that would be
 
-This has to be done once for every instance you want to keep persistent.
-
-It is sufficient to start a container that only populates the persistent volume
-and stops afterwards.::
-
-  $ mkdir data
-  $ docker run -t -v `pwd`/data:/home/kofa/waeup.kofa/bin/buildout -i kofa
-
-Other containers will happily use the already created volume::
-
-  $ docker run --net=host -t -v `pwd`/data:/home/kofa/waeup.kofa/var -i kofa
+  $ docker inspect kofadata1
 
 
 Building on Other Base Images
