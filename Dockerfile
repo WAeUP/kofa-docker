@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
-ARG KOFA_VERSION=1.7.1
+ARG KOFA_VERSION=1.8.1
 
 MAINTAINER Uli Fouquet <uli@waeup.org>
 
@@ -28,7 +28,7 @@ RUN virtualenv -p /usr/bin/python2.7 py27
 
 # get sources
 # we can work with official PyPI sources...
-RUN /home/kofa/py27/bin/pip download --no-deps waeup.kofa==${KOFA_VERSION} && tar -xzf waeup.kofa-${KOFA_VERSION}.tar.gz
+RUN /home/kofa/py27/bin/pip download --no-deps --no-binary :all: waeup.kofa==${KOFA_VERSION} && tar -xzf waeup.kofa-${KOFA_VERSION}.tar.gz
 ## ...OR with local kofa sources (create a source pkg with `python setup.py sdist`)
 ## Please keep one of the two lines above and below commented out.
 # ADD dist/waeup.kofa-${KOFA_VERSION}.tar.gz /home/kofa
