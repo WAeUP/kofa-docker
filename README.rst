@@ -2,12 +2,23 @@ Creating Docker Containers Running Kofa
 =======================================
 
 With the given Dockerfile and script we can create a docker container
-running `waeup.kofa` 1.7.1.
+running `waeup.kofa` 1.8.1.
 
 The following are merely notes to self.
 
 Shortcut (tl;rd):
 -----------------
+
+Build and run a cluster of one ZEO server serving `kofa` and one ZEO client
+(building takes a long time)::
+
+  $ docker compose up -d
+
+Watch your instance running at http://localhost:8080
+
+
+Longcut:
+--------
 
 Build::
 
@@ -54,6 +65,43 @@ be fetched during build process.
 You can play a bit with the freshly installed images.
 
 
+Build and start a ZEO powered cluster of `kofa` nodes
+-----------------------------------------------------
+
+We start with the most advanced scenario, because it is the easiest to set up
+and run. That is: running kofa in a `docker compose`-based container cluster.
+
+This can be done by one command::
+
+  $ docker compose up -d
+
+will pull all needed images, build the `kofa` images for ZEO server and ZEO
+client and then start these. The build can take 15 minutes or more but is
+necessary only when running for the first time or after code updates.
+
+To start a cluster of one ZEO servers and two clients, you can do::
+
+  $ docker compose up --scale zclient=2 -d
+
+Please note, that the ZEO clients need a config file that tells them where the
+server can be found. This config file is bind mounted from
+`etc/zope-zeoclient.conf` in the local directory.
+
+In this file the ZEO server URL and port are set in the two `server` stanzas inside the
+`<zeoclient>` sections::
+
+   ...
+   <zeoclient>
+     server myserver.localnet:8100
+     ...
+   </zeoclient>
+   ...
+
+By default the value set there is `zserver:8100`, a hostname and port that is
+given by the local zserver service in `docker-compose.yaml`.
+
+
+
 Build Kofa
 ----------
 
@@ -76,6 +124,31 @@ Use ``--no-cache`` to build from scratch, even if parts of the image
 where built successfully already.
 
 
+Build ZEO components
+--------------------
+
+The local `Dockerfile` not only supports building stock `kofa` but also to
+build a ZEO-server and a ZEO client to run kofa inside a cluster of containers.
+The proper tool to orchestrate these containers is `docker compose`.
+
+To build a ZEO server or client from the `Dockerfile` you have to give the
+respective targets::
+
+  $ docker build --target zeo_client -t kofa-zclient .
+  $ docker build --target zeo_server -t kofa-zserver .
+
+A ZEO server can then be started like this::
+
+  $ docker run --rm -v zserver1:/home/kofa/waeup.kofa/var -d kofa-zserver
+
+with all content created inside `var/` stored in a persistent volume.
+
+It is, however, not easy to create a network of servers and clients - except
+you use `docker compose` which makes this task very managable. We therefore
+explain usage of ZEO clients and servers in the `docker compoase` section
+above.
+
+
 Tag Container
 -------------
 
@@ -85,9 +158,9 @@ Optionally, you might like to tag the built container::
 
 where ``x.y.z`` is a version number. We tag our images like this:
 
-  `22.04-1.7.1`
+  `22.04-1.8.1`
 
-where `22.04` is the Ubuntu version used and `1.7.1` the Kofa version installed.
+where `22.04` is the Ubuntu version used and `1.8.1` the Kofa version installed.
 
 
 Run Kofa
@@ -100,7 +173,7 @@ this::
 
 or like this::
 
-  $ docker run -it --rm -p 8080:8080 kofa:20.04-1.7.1
+  $ docker run -it --rm -p 8080:8080 kofa:20.04-1.8.1
 
 if you prefer a certain version.
 

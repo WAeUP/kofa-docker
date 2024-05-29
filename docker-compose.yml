@@ -1,0 +1,31 @@
+services:
+  zserver:
+    build:
+      context: .
+      tags:
+        - "kofa-zserver"
+      target: zeo_server
+      # dockerfile: zeo-server.dockerfile
+    # image: kofa-zserver
+    # ports: 8100:8100
+    volumes:
+      - zserver1:/home/kofa/waeup.kofa/var
+
+  zclient:
+    image: kofa-zclient
+    build:
+      context: .
+      tags:
+        - "kofa-zclient"
+      target: zeo_client
+      # dockerfile: zeo-client.dockerfile
+    depends_on:
+      - zserver
+    ports:
+      - "8080-8088:8080"
+    volumes:
+      - ./zope_zeo1.conf:/home/kofa/waeup.kofa/parts/etc/zope_zeo1.conf:ro
+
+volumes:
+  zserver1:
+
