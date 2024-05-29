@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.04 as kofa_base
 ARG KOFA_VERSION=1.8.1
 
 MAINTAINER Uli Fouquet <uli@waeup.org>
@@ -46,9 +46,33 @@ RUN /home/kofa/py27/bin/pip install --upgrade --force-reinstall setuptools==44.1
 # pin down `zc.buildout` - versions >= 3 make entry-points of installed eggs
 # invisible for `pgk_resources`
 RUN /home/kofa/py27/bin/pip install "zc.buildout<3"
-RUN /home/kofa/py27/bin/buildout
 
 # this dir will contain data you might want to be persistent
 VOLUME ["/home/kofa/waeup.kofa/var/"]
 
+# ----------------- zeo-base --------------
+FROM kofa_base as zeo_base
+
+RUN /home/kofa/py27/bin/buildout -c /home/kofa/waeup.kofa/buildout-zeo.cfg
+
+# ----------------- zeo-client ------------
+FROM zeo_base as zeo_client
+
+EXPOSE 8080/tcp
+
+CMD /home/kofa/waeup.kofa/bin/zeo_client1 fg
+
+# ----------------- zeo-server ------------
+FROM zeo_base as zeo_server
+
+EXPOSE 8100/tcp
+EXPOSE 8100/udp
+
+CMD /home/kofa/waeup.kofa/bin/zeo_server fg
+
+# ---------------- kofa -------------------
+FROM kofa_base as kofa
+RUN /home/kofa/py27/bin/buildout
+
 CMD /home/kofa/waeup.kofa/bin/kofactl fg
+
