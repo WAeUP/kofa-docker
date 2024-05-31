@@ -57,7 +57,7 @@ Install Basic Images (Ubuntu)
 
 You can pull a recent base image, we yet use Ubuntu, beforehand::
 
-  $ docker pull ubuntu:20.04
+  $ docker pull ubuntu:22.04
 
 This will fetch some hundred MBs. If you do not, the base image will
 be fetched during build process.
@@ -106,7 +106,7 @@ Build Kofa
 ----------
 
 This official docker image of `waeup.kofa` is based on Ubuntu
-20.04. We have to get the Dockerfile and the `build.sh` script::
+22.04. We have to get the Dockerfile and the `build.sh` script::
 
   $ git clone https://github.com/waeup/kofa-docker.git
 
@@ -173,7 +173,7 @@ this::
 
 or like this::
 
-  $ docker run -it --rm -p 8080:8080 kofa:20.04-1.8.1
+  $ docker run -it --rm -p 8080:8080 kofa:22.04-1.8.1
 
 if you prefer a certain version.
 
@@ -339,11 +339,13 @@ In our case that would be
 Building on Other Base Images
 -----------------------------
 
-By default we support Ubuntu 20.04 as base. Apart from that we provide
+By default we support Ubuntu 22.04 as base. Apart from that we provide
 limited support for other images::
 
   xenial/    # Ubuntu 16.04
   bionic/    # Ubuntu 18.04
+
+Images based on 20.04 can be built with the standard `Dockerfile`.
 
 You can build/tag/run respective images like this::
 

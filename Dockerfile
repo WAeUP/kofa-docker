@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 as kofa_base
+FROM ubuntu:22.04 as kofa_base
 ARG KOFA_VERSION=1.8.1
 
 MAINTAINER Uli Fouquet <uli@waeup.org>
